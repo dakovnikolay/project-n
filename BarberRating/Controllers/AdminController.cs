@@ -131,7 +131,7 @@ public class AdminController : Controller
                 }
                 else
                 {
-                    model.Image = "";
+                    model.Image = "/images/default.jpg";
                 }
 
                 var barber = new Barber
@@ -191,7 +191,7 @@ public class AdminController : Controller
                 }
                 else if (string.IsNullOrEmpty(existingBarber.Image) && string.IsNullOrEmpty(model.Image))
                 {
-                    existingBarber.Image = "";
+                    existingBarber.Image = "/images/default.jpg";
                 }
 
                 existingBarber.Name = model.Name;

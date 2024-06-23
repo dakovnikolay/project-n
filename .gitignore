@@ -65,7 +65,6 @@ ScaffoldingReadMe.txt
 
 # Microsoft Visual Studio cache files
 .vs/
-/*/wwwroot/
 history/
 
 # Uncomment if you need to support Visual Studio 2013 and earlier
