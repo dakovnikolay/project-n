@@ -1,8 +1,16 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<Barber> 
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="gallery-container">
+    <h1>Welcome to the Barber Gallery</h1>
+    <div class="barber-gallery">
+        @foreach (var barber in Model)
+        {
+            <div class="barber-card">
+                <img src="@barber.Image" alt="@barber.Name" class="barber-image">
+                <h2>@barber.Name</h2>
+                <p>@barber.Description</p>
+                <a asp-controller="Barber" asp-action="Details" asp-route-id="@barber.Id" class="view-details-button">View Details</a>
+            </div>
+        }
+    </div>
 </div>

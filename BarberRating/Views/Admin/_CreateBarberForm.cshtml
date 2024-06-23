@@ -1,0 +1,14 @@
+﻿@model BarberRating.Models.ViewModels.BarberViewModel
+
+<form asp-action="CreateBarber" asp-controller="Admin" method="post" enctype="multipart/form-data" id="barber-form">
+    <input type="hidden" asp-for="Id" id="barber-Id" />
+    <input type="hidden" id="selected-barber-id" name="barberId" value="" />
+    <label for="barber-name">Barber Name</label>
+    <input type="text" asp-for="Name" required id="barber-name" />
+    <label for="barber-description">Description</label>
+    <textarea asp-for="Description" required id="barber-description"></textarea>
+    <label for="barber-image">Image</label>
+    <input type="file" asp-for="ImageFile" accept="image/*" id="barber-image" />
+    <button type="submit" id="barber-submit-button">Create Barber</button>
+    <button type="submit" formaction="@Url.Action("DeleteBarber", "Admin")" id="delete-barber-button" style="display: none;" onclick="setBarberDeleteFormAction(); return confirm('Are you sure you want to delete this barber?');">Delete</button>
+</form>

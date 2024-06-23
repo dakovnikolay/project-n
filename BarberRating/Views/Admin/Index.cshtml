@@ -1,0 +1,102 @@
+@model AdminViewModel
+
+<section class="admin-form-container">
+    <h2>User Stats</h2>
+    <div class="stats">
+        <p>Number of Barbers: <span id="barber-count">@Model.BarberCount</span></p>
+        <p>Number of Users: <span id="user-count">@Model.UserCount</span></p>
+        <p>Number of Reviews: <span id="review-count">@Model.ReviewCount</span></p>
+    </div>
+</section>
+
+<section class="admin-form-container">
+    <h2>Manage Users</h2>
+    <div class="manage-section">
+        @Html.Partial("_CreateUserForm", new BarberRating.Models.ViewModels.UserViewModel())
+
+        <div>
+            <label for="user-select">Select User</label>
+            <select id="user-select" onchange="populateEditUserForm()">
+                <option value="">Select a user</option>
+                @foreach (var user in Model.Users)
+                {
+                    <option value="@user.Id" data-username="@user.UserName" data-firstname="@user.FirstName" data-lastname="@user.LastName">@user.UserName</option>
+                }
+            </select>
+        </div>
+    </div>
+</section>
+
+<section class="admin-form-container">
+    <h2>Manage Barbers</h2>
+    <div class="manage-section">
+        @Html.Partial("_CreateBarberForm", new BarberRating.Models.ViewModels.BarberViewModel())
+
+        <div>
+            <label for="barber-select">Select Barber</label>
+            <select id="barber-select" onchange="populateEditBarberForm()">
+                <option value="">Select a barber</option>
+                @foreach (var barber in Model.Barbers)
+                {
+                    <option value="@barber.Id" data-name="@barber.Name" data-description="@barber.Description" data-image="@barber.Image">@barber.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+</section>
+
+<script>
+    function populateEditUserForm() {
+        var select = document.getElementById('user-select');
+        var selectedOption = select.options[select.selectedIndex];
+        var deleteButton = document.getElementById('delete-user-button');
+
+        if (selectedOption.value) {
+            document.getElementById('user-form').action = '@Url.Action("EditUser", "Admin")';
+            document.getElementById('user-submit-button').innerText = 'Edit User';
+            document.getElementById('user-Id').value = selectedOption.value;
+            document.getElementById('username').value = selectedOption.getAttribute('data-username');
+            document.getElementById('password').value = '';
+            document.getElementById('password').disabled = true; // Disable password field during edit
+            document.getElementById('first-name').value = selectedOption.getAttribute('data-firstname');
+            document.getElementById('last-name').value = selectedOption.getAttribute('data-lastname');
+            deleteButton.style.display = 'inline-block';
+        } else {
+            document.getElementById('user-form').reset();
+            document.getElementById('user-form').action = '@Url.Action("CreateUser", "Admin")';
+            document.getElementById('user-submit-button').innerText = 'Create User';
+            document.getElementById('password').disabled = false; // Enable password field for create
+            deleteButton.style.display = 'none';
+        }
+    }
+
+    function setUserDeleteFormAction() {
+        var userId = document.getElementById('user-select').value;
+        document.getElementById('selected-user-id').value = userId;
+    }
+
+    function populateEditBarberForm() {
+        var select = document.getElementById('barber-select');
+        var selectedOption = select.options[select.selectedIndex];
+        var deleteButton = document.getElementById('delete-barber-button');
+
+        if (selectedOption.value) {
+            document.getElementById('barber-form').action = '@Url.Action("EditBarber", "Admin")';
+            document.getElementById('barber-submit-button').innerText = 'Edit Barber';
+            document.getElementById('barber-Id').value = selectedOption.value;
+            document.getElementById('barber-name').value = selectedOption.getAttribute('data-name');
+            document.getElementById('barber-description').value = selectedOption.getAttribute('data-description');
+            deleteButton.style.display = 'inline-block';
+        } else {
+            document.getElementById('barber-form').reset();
+            document.getElementById('barber-form').action = '@Url.Action("CreateBarber", "Admin")';
+            document.getElementById('barber-submit-button').innerText = 'Create Barber';
+            deleteButton.style.display = 'none';
+        }
+    }
+
+    function setBarberDeleteFormAction() {
+        var barberId = document.getElementById('barber-select').value;
+        document.getElementById('selected-barber-id').value = barberId;
+    }
+</script>
